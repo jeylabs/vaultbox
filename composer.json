@@ -1,0 +1,48 @@
+{
+  "name": "jeylabs/laravel-filemanager",
+  "description": "A file upload/editor intended for use with Laravel 5 and CKEditor / TinyMCE",
+  "license": "MIT",
+  "keywords": [
+    "filemanager",
+    "laravel",
+    "ckeditor",
+    "tinymce",
+    "upload",
+    "file",
+    "manager",
+    "image"
+  ],
+  "authors": [
+    {
+      "name": "Trevor Sawler",
+      "email": "trevor.sawler@gmail.com"
+    },
+    {
+      "name": "Unisharp Ltd.",
+      "email": "unisharp-service@unisharp.com"
+    },
+    {
+      "name": "jEyLabs",
+      "email": "packages@jeylabs.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "illuminate/support": ">=4.2.0",
+    "intervention/image": "2.*"
+  },
+  "require-dev": {
+    "orchestra/testbench": "~3.0",
+    "phpspec/phpspec": "~2.1",
+    "phpunit/phpunit": "~4.8"
+  },
+  "suggest": {
+    "ext-gd": "to use GD library based image processing.",
+    "ext-imagick": "to use Imagick based image processing."
+  },
+  "autoload": {
+    "psr-4": {
+      "Jeylabs\\Laravelfilemanager\\": "src/"
+    }
+  }
+}
