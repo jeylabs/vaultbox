@@ -27,7 +27,7 @@ class VaultboxServiceProvider extends ServiceProvider {
         $this->loadViewsFrom(__DIR__.'/views', 'vaultbox');
 
         $this->publishes([
-            __DIR__ . '/config/Vaultbox.php' => base_path('config/Vaultbox.php'),
+            __DIR__ . '/config/vaultbox.php' => base_path('config/gitvaultbox.php'),
         ], 'Vaultbox_config');
 
         $this->publishes([      

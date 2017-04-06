@@ -1,4 +1,4 @@
-In `config/Vaultbox.php` :
+In `config/vaultbox.php` :
 
 ```php
 /*

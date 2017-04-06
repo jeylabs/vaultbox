@@ -35,4 +35,4 @@
     php artisan vendor:publish --tag=Vaultbox_public
     ```
     
-1. Ensure that the files & images directories (in `config/Vaultbox.php`) are writable by your web server(run commands like `chown` or `chmod`).
+1. Ensure that the files & images directories (in `config/vaultbox.php`) are writable by your web server(run commands like `chown` or `chmod`).

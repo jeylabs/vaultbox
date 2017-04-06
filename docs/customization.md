@@ -30,5 +30,5 @@ php artisan vendor:publish --tag=Vaultbox_view
 
 ## Translations
 
-1. Copy `vendor/jeylabs/vaultbox/src/lang/en` to `/resources/lang/vendor/vaultbox/<YOUR LANGUAGE>/Vaultbox.php`.
+1. Copy `vendor/jeylabs/vaultbox/src/lang/en` to `/resources/lang/vendor/vaultbox/<YOUR LANGUAGE>/vaultbox.php`.
 1. Edit the file as you please.

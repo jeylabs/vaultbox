@@ -1,6 +1,6 @@
 ## Upgrade instructions
 
-  1. Please backup your own `config/Vaultbox.php` before upgrading.
+  1. Please backup your own `config/vaultbox.php` before upgrading.
   
   1. Run commands:
 
