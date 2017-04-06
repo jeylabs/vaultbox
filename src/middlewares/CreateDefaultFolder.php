@@ -1,13 +1,13 @@
 <?php
 
-namespace Jeylabs\Laravelfilemanager\middlewares;
+namespace Jeylabs\Vaultbox\middlewares;
 
-use Jeylabs\Laravelfilemanager\traits\LfmHelpers;
+use Jeylabs\Vaultbox\traits\VaultboxHelpers;
 use Closure;
 
 class CreateDefaultFolder
 {
-    use LfmHelpers;
+    use VaultboxHelpers;
 
     public function handle($request, Closure $next)
     {

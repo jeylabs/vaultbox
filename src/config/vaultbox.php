@@ -15,7 +15,7 @@ return [
     'middlewares' => ['web','auth'],
 
     // The url to this package. Change it if necessary.
-    'prefix' => 'laravel-filemanager',
+    'prefix' => 'vaultbox',
 
     /*
     |--------------------------------------------------------------------------
@@ -92,7 +92,7 @@ return [
     ],
 
     // available since v1.3.0
-    // only when '/laravel-filemanager?type=Files'
+    // only when '/vaultbox?type=Files'
     'valid_file_mimetypes' => [
         'image/jpeg',
         'image/pjpeg',

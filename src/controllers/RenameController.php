@@ -1,18 +1,18 @@
 <?php
 
-namespace Jeylabs\Laravelfilemanager\controllers;
+namespace Jeylabs\Vaultbox\controllers;
 
 use Illuminate\Support\Facades\Storage;
-use Jeylabs\Laravelfilemanager\Events\ImageIsRenaming;
-use Jeylabs\Laravelfilemanager\Events\ImageWasRenamed;
-use Jeylabs\Laravelfilemanager\Events\FolderIsRenaming;
-use Jeylabs\Laravelfilemanager\Events\FolderWasRenamed;
+use Jeylabs\Vaultbox\Events\ImageIsRenaming;
+use Jeylabs\Vaultbox\Events\ImageWasRenamed;
+use Jeylabs\Vaultbox\Events\FolderIsRenaming;
+use Jeylabs\Vaultbox\Events\FolderWasRenamed;
 
 /**
  * Class RenameController
- * @package Jeylabs\Laravelfilemanager\controllers
+ * @package Jeylabs\Vaultbox\controllers
  */
-class RenameController extends LfmController
+class RenameController extends VaultboxController
 {
     /**
      * @return string
@@ -45,7 +45,7 @@ class RenameController extends LfmController
             event(new ImageIsRenaming($old_file, $new_file));
         }
 
-        if (config('lfm.alphanumeric_directory') && preg_match('/[^\w-]/i', $new_name)) {
+        if (config('Vaultbox.alphanumeric_directory') && preg_match('/[^\w-]/i', $new_name)) {
             return $this->error('folder-alnum');
         } elseif (Storage::exists($new_file)) {
             return $this->error('rename');

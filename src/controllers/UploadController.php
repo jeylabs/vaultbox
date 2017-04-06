@@ -1,18 +1,18 @@
 <?php
 
-namespace Jeylabs\Laravelfilemanager\controllers;
+namespace Jeylabs\Vaultbox\controllers;
 
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Jeylabs\Laravelfilemanager\Events\ImageIsUploading;
-use Jeylabs\Laravelfilemanager\Events\ImageWasUploaded;
+use Jeylabs\Vaultbox\Events\ImageIsUploading;
+use Jeylabs\Vaultbox\Events\ImageWasUploaded;
 
 /**
  * Class UploadController
- * @package Jeylabs\Laravelfilemanager\controllers
+ * @package Jeylabs\Vaultbox\controllers
  */
-class UploadController extends LfmController
+class UploadController extends VaultboxController
 {
     /**
      * Upload an image/file and (for images) create thumbnail
@@ -97,10 +97,10 @@ class UploadController extends LfmController
 
         // size to kb unit is needed
         $file_size = $file->getSize() / 1000;
-        $type_key = $this->currentLfmType();
+        $type_key = $this->currentVaultboxType();
 
-        if (config('lfm.should_validate_size')) {
-            $max_size = config('lfm.max_' . $type_key . '_size', 0);
+        if (config('Vaultbox.should_validate_size')) {
+            $max_size = config('Vaultbox.max_' . $type_key . '_size', 0);
             if ($file_size > $max_size) {
                 return $this->error('size') . $mimetype;
             }
@@ -113,9 +113,9 @@ class UploadController extends LfmController
     {
         $new_filename = $this->translateFromUtf8(trim(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)));
 
-        if (config('lfm.rename_file') === true) {
+        if (config('Vaultbox.rename_file') === true) {
             $new_filename = uniqid();
-        } elseif (config('lfm.alphanumeric_filename') === true) {
+        } elseif (config('Vaultbox.alphanumeric_filename') === true) {
             $new_filename = preg_replace('/[^A-Za-z0-9\-\']/', '_', $new_filename);
         }
 
@@ -129,7 +129,7 @@ class UploadController extends LfmController
 
         // create thumb image
         Image::make(parent::getCurrentPath($new_filename))
-            ->fit(config('lfm.thumb_img_width', 200), config('lfm.thumb_img_height', 200))
+            ->fit(config('Vaultbox.thumb_img_width', 200), config('Vaultbox.thumb_img_height', 200))
             ->save(parent::getThumbPath($new_filename));
     }
 

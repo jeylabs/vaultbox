@@ -15,7 +15,7 @@ return [
     'menu-crop'         => 'Taie',
 
     'title-page'        => 'Manager fișiere',
-    'title-panel'       => 'Laravel FileManager',
+    'title-panel'       => 'Vaultbox',
     'title-upload'      => 'Încarcă fișier(e)',
     'title-view'        => 'Vezi fișier',
     'title-root'        => 'Fișiere',

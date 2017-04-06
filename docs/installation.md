@@ -7,7 +7,7 @@
 1. Install package 
 
     ```bash
-    composer require Jeylabs/laravel-filemanager
+    composer require Jeylabs/vaultbox
     ```
 
 1. Edit `config/app.php` :
@@ -15,7 +15,7 @@
     Add service providers
 
     ```php
-    Jeylabs\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
+    Jeylabs\Vaultbox\VaultboxServiceProvider::class,
     Intervention\Image\ImageServiceProvider::class,
     ```
 
@@ -31,8 +31,8 @@
 1. Publish the package's config and assets :
 
     ```bash
-    php artisan vendor:publish --tag=lfm_config
-    php artisan vendor:publish --tag=lfm_public
+    php artisan vendor:publish --tag=Vaultbox_config
+    php artisan vendor:publish --tag=Vaultbox_public
     ```
     
-1. Ensure that the files & images directories (in `config/lfm.php`) are writable by your web server(run commands like `chown` or `chmod`).
+1. Ensure that the files & images directories (in `config/Vaultbox.php`) are writable by your web server(run commands like `chown` or `chmod`).

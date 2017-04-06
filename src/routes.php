@@ -1,24 +1,24 @@
 <?php
-$middleware = array_merge(\Config::get('lfm.middlewares'), [
-    '\Jeylabs\Laravelfilemanager\middlewares\MultiUser',
-    '\Jeylabs\Laravelfilemanager\middlewares\CreateDefaultFolder'
+$middleware = array_merge(\Config::get('vaultbox.middlewares'), [
+    '\Jeylabs\Vaultbox\middlewares\MultiUser',
+    '\Jeylabs\Vaultbox\middlewares\CreateDefaultFolder'
 ]);
-$prefix = \Config::get('lfm.prefix', 'laravel-filemanager');
-$as = 'Jeylabs.lfm.';
-$namespace = '\Jeylabs\Laravelfilemanager\controllers';
+$prefix = \Config::get('vaultbox.prefix', 'vaultbox');
+$as = 'jeylabs.vaultbox.';
+$namespace = '\Jeylabs\Vaultbox\controllers';
 
 // make sure authenticated
 Route::group(compact('middleware', 'prefix', 'as', 'namespace'), function () {
 
-    // Show LFM
+    // Show Vaultbox
     Route::get('/', [
-        'uses' => 'LfmController@show',
+        'uses' => 'VaultboxController@show',
         'as' => 'show'
     ]);
 
     // Show integration error messages
     Route::get('/errors', [
-        'uses' => 'LfmController@getErrors',
+        'uses' => 'VaultboxController@getErrors',
         'as' => 'getErrors'
     ]);
 

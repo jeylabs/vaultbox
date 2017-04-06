@@ -15,7 +15,7 @@ return [
     'menu-crop'         => 'Przytnij',
 
     'title-page'        => 'Menedżer plików',
-    'title-panel'       => 'Laravel FileManager',
+    'title-panel'       => 'Vaultbox',
     'title-upload'      => 'Wgraj plik',
     'title-view'        => 'Podgląd',
     'title-root'        => 'Pliki',

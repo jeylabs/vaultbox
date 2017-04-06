@@ -1,4 +1,6 @@
-<?php namespace Jeylabs\Laravelfilemanager\controllers;
+<?php
+
+namespace Jeylabs\Vaultbox\controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;

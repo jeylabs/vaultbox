@@ -1,5 +1,5 @@
 ## Note
-Check `vendor/Jeylabs/laravel-filemanager/src/views/demo.blade.php`, which already integrated all options from below.
+Check `vendor/Jeylabs/vaultbox/src/views/demo.blade.php`, which already integrated all options from below.
 
 ## WYSIWYG Editor Integration:
 ### Option 1: CKEditor
@@ -9,10 +9,10 @@ Check `vendor/Jeylabs/laravel-filemanager/src/views/demo.blade.php`, which alrea
 <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 <script>
   var options = {
-    filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
-    filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token={{csrf_token()}}',
-    filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-    filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token={{csrf_token()}}'
+    filebrowserImageBrowseUrl: '/vaultbox?type=Images',
+    filebrowserImageUploadUrl: '/vaultbox/upload?type=Images&_token={{csrf_token()}}',
+    filebrowserBrowseUrl: '/vaultbox?type=Files',
+    filebrowserUploadUrl: '/vaultbox/upload?type=Files&_token={{csrf_token()}}'
   };
 </script>
 ```
@@ -56,7 +56,7 @@ Check `vendor/Jeylabs/laravel-filemanager/src/views/demo.blade.php`, which alrea
       var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
       var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
 
-      var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+      var cmsURL = editor_config.path_absolute + 'vaultbox?field_name=' + field_name;
       if (type == 'image') {
         cmsURL = cmsURL + "&type=Images";
       } else {
@@ -87,7 +87,7 @@ If you are going to use filemanager independently, meaning set the value of an i
     ```html
     <div class="input-group">
       <span class="input-group-btn">
-        <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+        <a id="Vaultbox" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
           <i class="fa fa-picture-o"></i> Choose
         </a>
       </span>
@@ -95,27 +95,27 @@ If you are going to use filemanager independently, meaning set the value of an i
     </div>
     <img id="holder" style="margin-top:15px;max-height:100px;">
     ``` 
-1. Import lfm.js(run `php artisan vendor:publish` if you need).
+1. Import Vaultbox.js(run `php artisan vendor:publish` if you need).
 
     ```html
-    <script src="/vendor/laravel-filemanager/js/lfm.js"></script>
+    <script src="/vendor/vaultbox/js/Vaultbox.js"></script>
     ```
 
 1. Init filemanager with type. (requires jQuery)
 
     ```javascript
-    $('#lfm').filemanager('image');
+    $('#Vaultbox').filemanager('image');
     ```
     or
     ```javascript
-    $('#lfm').filemanager('file');
+    $('#Vaultbox').filemanager('file');
     ```
 
     Domain can be specified in the second parameter(optional, but will be required when developing on Windows mechines) :
 
     ```javascript
     var domain = "{{ url() }}";
-    $('#lfm').filemanager('image', {prefix: domain});
+    $('#Vaultbox').filemanager('image', {prefix: domain});
     ```
     
 ## JavaScript integration
@@ -123,9 +123,9 @@ In case you are developing javascript application and you want dynamically to tr
 
 
 ```javascript
-var lfm = function(options, cb) {
+var Vaultbox = function(options, cb) {
 
-	var route_prefix = (options && options.prefix) ? options.prefix : '/laravel-filemanager';
+	var route_prefix = (options && options.prefix) ? options.prefix : '/vaultbox';
 
 	window.open(route_prefix + '?type=' + options.type || 'file', 'FileManager', 'width=900,height=600');
 	window.SetUrl = cb;
@@ -135,7 +135,7 @@ var lfm = function(options, cb) {
 And use it like this:
 
 ```javascript
-lfm({type: 'image', prefix: 'prefix'}, function(url, path) {
+Vaultbox({type: 'image', prefix: 'prefix'}, function(url, path) {
 
 });
 ```

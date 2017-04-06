@@ -1,4 +1,4 @@
-In `config/lfm.php` :
+In `config/Vaultbox.php` :
 
 ```php
 /*
@@ -15,7 +15,7 @@ In `config/lfm.php` :
 'middlewares' => ['web','auth'],
 
 // The url to this package. Change it if necessary.
-'prefix' => 'laravel-filemanager',
+'prefix' => 'vaultbox',
 
 /*
 |--------------------------------------------------------------------------
@@ -84,7 +84,7 @@ In `config/lfm.php` :
 ],
 
 // available since v1.3.0
-// only when '/laravel-filemanager?type=Files'
+// only when '/vaultbox?type=Files'
 'valid_file_mimetypes' => [
     'image/jpeg',
     'image/pjpeg',

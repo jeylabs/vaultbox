@@ -15,7 +15,7 @@ return [
     'menu-crop'         => 'Bijsnijden',
 
     'title-page'        => 'File Manager',
-    'title-panel'       => 'Laravel FileManager',
+    'title-panel'       => 'Vaultbox',
     'title-upload'      => 'Bestand Uploaden',
     'title-view'        => 'Bestand Bekijken',
     'title-root'        => 'Bestanden',

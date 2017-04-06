@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Laravel Filemanager</title>
-  <link rel="shortcut icon" type="image/png" href="{{ asset('vendor/laravel-filemanager/img/folder.png') }}">
+  <title>Vaultbox</title>
+  <link rel="shortcut icon" type="image/png" href="{{ asset('vendor/vaultbox/img/folder.png') }}">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
@@ -25,7 +25,7 @@
         <h2>Standalone Button</h2>
         <div class="input-group">
           <span class="input-group-btn">
-            <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+            <a id="Vaultbox" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
               <i class="fa fa-picture-o"></i> Choose
             </a>
           </span>
@@ -39,7 +39,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script>
-   var route_prefix = "{{ url(config('lfm.prefix')) }}";
+   var route_prefix = "{{ url(config('Vaultbox.prefix')) }}";
   </script>
 
   <!-- CKEditor init -->
@@ -93,10 +93,10 @@
   </script>
 
   <script>
-    {!! \File::get(base_path('vendor/Jeylabs/laravel-filemanager/public/js/lfm.js')) !!}
+    {!! \File::get(base_path('vendor/Jeylabs/vaultbox/public/js/Vaultbox.js')) !!}
   </script>
   <script>
-    $('#lfm').filemanager('image', {prefix: route_prefix});
+    $('#Vaultbox').filemanager('image', {prefix: route_prefix});
   </script>
 </body>
 </html>

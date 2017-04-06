@@ -1,11 +1,12 @@
 <?php
 
-namespace Jeylabs\Laravelfilemanager\traits;
+namespace Jeylabs\Vaultbox\traits;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-trait LfmHelpers
+trait VaultboxHelpers
 {
     /*****************************
      ***       Path / Url      ***
@@ -47,7 +48,7 @@ trait LfmHelpers
         ]);
 
         $full_path = $this->removeDuplicateSlash($full_path);
-        $full_path = $this->translateToLfmPath($full_path);
+        $full_path = $this->translateToVaultboxPath($full_path);
 
         return $this->removeLastSlash($full_path);
     }
@@ -59,10 +60,10 @@ trait LfmHelpers
             $default_folder_name = 'photos';
         }
 
-        $prefix = config('lfm.' . $this->currentLfmType() . 's_folder_name', $default_folder_name);
+        $prefix = config('Vaultbox.' . $this->currentVaultboxType() . 's_folder_name', $default_folder_name);
 
         if ($type === 'dir') {
-            $prefix = config('lfm.base_directory', 'public') . '/' . $prefix;
+            $prefix = config('Vaultbox.base_directory', 'public') . '/' . $prefix;
         }
 
         return $prefix;
@@ -90,7 +91,7 @@ trait LfmHelpers
             return;
         }
 
-        $thumb_folder_name = config('lfm.thumb_folder_name');
+        $thumb_folder_name = config('Vaultbox.thumb_folder_name');
         //if user is inside thumbs folder there is no need
         // to add thumbs substring to the end of $url
         $in_thumb_folder = preg_match('/'.$thumb_folder_name.'$/i', $this->getFormatedWorkingDir());
@@ -105,7 +106,7 @@ trait LfmHelpers
         if ($type === 'user') {
             $folder_name = $this->getUserSlug();
         } else {
-            $folder_name = config('lfm.shared_folder_name');
+            $folder_name = config('Vaultbox.shared_folder_name');
         }
 
         return $this->ds . $folder_name;
@@ -118,9 +119,9 @@ trait LfmHelpers
 
     public function getName($file)
     {
-        $lfm_file_path = $this->getInternalPath($file);
+        $Vaultbox_file_path = $this->getInternalPath($file);
 
-        $arr_dir = explode($this->ds, $lfm_file_path);
+        $arr_dir = explode($this->ds, $Vaultbox_file_path);
         $file_name = end($arr_dir);
 
         return $file_name;
@@ -128,13 +129,13 @@ trait LfmHelpers
 
     public function getInternalPath($full_path)
     {
-        $full_path = $this->translateToLfmPath($full_path);
+        $full_path = $this->translateToVaultboxPath($full_path);
         $full_path = $this->translateToUtf8($full_path);
-        $lfm_dir_start = strpos($full_path, $this->getPathPrefix('dir'));
-        $working_dir_start = $lfm_dir_start + strlen($this->getPathPrefix('dir'));
-        $lfm_file_path = $this->ds . substr($full_path, $working_dir_start);
+        $Vaultbox_dir_start = strpos($full_path, $this->getPathPrefix('dir'));
+        $working_dir_start = $Vaultbox_dir_start + strlen($this->getPathPrefix('dir'));
+        $Vaultbox_file_path = $this->ds . substr($full_path, $working_dir_start);
 
-        return $this->removeDuplicateSlash($lfm_file_path);
+        return $this->removeDuplicateSlash($Vaultbox_file_path);
     }
 
     private function translateToOsPath($path)
@@ -145,7 +146,7 @@ trait LfmHelpers
         return $path;
     }
 
-    private function translateToLfmPath($path)
+    private function translateToVaultboxPath($path)
     {
         if ($this->isRunningOnWindows()) {
             $path = str_replace('\\', $this->ds, $path);
@@ -202,15 +203,15 @@ trait LfmHelpers
 
     public function isProcessingImages()
     {
-        return $this->currentLfmType() === 'image';
+        return $this->currentVaultboxType() === 'image';
     }
 
     public function isProcessingFiles()
     {
-        return $this->currentLfmType() === 'file';
+        return $this->currentVaultboxType() === 'file';
     }
 
-    public function currentLfmType($is_for_url = false)
+    public function currentVaultboxType($is_for_url = false)
     {
         $file_type = request('type', 'Images');
 
@@ -223,12 +224,12 @@ trait LfmHelpers
 
     public function allowMultiUser()
     {
-        return config('lfm.allow_multi_user') === true;
+        return config('Vaultbox.allow_multi_user') === true;
     }
 
     public function enabledShareFolder()
     {
-        return config('lfm.allow_share_folder') === true;
+        return config('Vaultbox.allow_share_folder') === true;
     }
 
 
@@ -238,8 +239,8 @@ trait LfmHelpers
 
     public function getDirectories($path)
     {
-        $thumb_folder_name = config('lfm.thumb_folder_name');
-        $all_directories = File::directories($path);
+        $thumb_folder_name = config('Vaultbox.thumb_folder_name');
+        $all_directories = Storage::directories($path);
 
         $arr_dir = [];
 
@@ -261,20 +262,20 @@ trait LfmHelpers
     {
         $arr_files = [];
 
-        foreach (File::files($path) as $key => $file) {
+        foreach (Storage::files($path) as $key => $file) {
             $file_name = $this->getName($file);
 
             if ($this->fileIsImage($file)) {
-                $file_type = File::mimeType($file);
+                $file_type = Storage::mimeType($file);
                 $icon = 'fa-image';
             } else {
-                $extension = strtolower(File::extension($file_name));
-                $file_type = config('lfm.file_type_array.' . $extension) ?: 'File';
-                $icon = config('lfm.file_icon_array.' . $extension) ?: 'fa-file';
+                $extension = strtolower(Storage::extension($file_name));
+                $file_type = config('Vaultbox.file_type_array.' . $extension) ?: 'File';
+                $icon = config('Vaultbox.file_icon_array.' . $extension) ?: 'fa-file';
             }
 
             $thumb_path = $this->getThumbPath($file_name);
-            if (File::exists($thumb_path)) {
+            if (Storage::exists($thumb_path)) {
                 $thumb_url = $this->getThumbUrl($file_name) . '?timestamp=' . filemtime($thumb_path);
             } else {
                 $thumb_url = null;
@@ -297,14 +298,14 @@ trait LfmHelpers
 
     public function createFolderByPath($path)
     {
-        if (!File::exists($path)) {
-            File::makeDirectory($path, $mode = 0777, true, true);
+        if (!Storage::exists($path)) {
+            Storage::makeDirectory($path, $mode = 0777, true, true);
         }
     }
 
     public function directoryIsEmpty($directory_path)
     {
-        return count(File::allFiles($directory_path)) == 0;
+        return count(Storage::allFiles($directory_path)) == 0;
     }
 
     public function fileIsImage($file)
@@ -312,7 +313,7 @@ trait LfmHelpers
         if ($file instanceof UploadedFile) {
             $mime_type = $file->getMimeType();
         } else {
-            $mime_type = File::mimeType($file);
+            $mime_type = Storage::mimeType($file);
         }
 
         return starts_with($mime_type, 'image');
@@ -325,14 +326,14 @@ trait LfmHelpers
 
     public function getUserSlug()
     {
-        $slug_of_user = config('lfm.user_field');
+        $slug_of_user = config('Vaultbox.user_field');
 
         return empty(auth()->user()) ? '' : auth()->user()->$slug_of_user;
     }
 
     public function error($error_type, $variables = [])
     {
-        return trans('laravel-filemanager::lfm.error-' . $error_type, $variables);
+        return trans('vaultbox::Vaultbox.error-' . $error_type, $variables);
     }
 
     public function humanFilesize($bytes, $decimals = 2)

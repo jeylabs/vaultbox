@@ -1,1 +1,1 @@
-# Jeylabs Laravel Filemanager# vaultbox
+# vaultbox

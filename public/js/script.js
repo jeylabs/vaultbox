@@ -3,7 +3,7 @@ var show_list;
 $(document).ready(function () {
   bootbox.setDefaults({locale:lang['locale-bootbox']});
   loadFolders();
-  performLfmRequest('errors')
+  performVaultboxRequest('errors')
     .done(function (data) {
       var response = JSON.parse(data);
       for (var i = 0; i < response.length; i++) {
@@ -108,7 +108,7 @@ function setOpenFolders() {
 // ==  Ajax actions  ==
 // ====================
 
-function performLfmRequest(url, parameter, type) {
+function performVaultboxRequest(url, parameter, type) {
   var data = defaultParameters();
 
   if (parameter != null) {
@@ -120,7 +120,7 @@ function performLfmRequest(url, parameter, type) {
   return $.ajax({
     type: 'GET',
     dataType: type || 'text',
-    url: lfm_route + '/' + url,
+    url: Vaultbox_route + '/' + url,
     data: data,
     cache: false
   }).fail(function () {
@@ -142,7 +142,7 @@ var hideNavAndShowEditor = function (data) {
 }
 
 function loadFolders() {
-  performLfmRequest('folders', {}, 'html')
+  performVaultboxRequest('folders', {}, 'html')
     .done(function (data) {
       $('#tree').html(data);
       loadItems();
@@ -150,7 +150,7 @@ function loadFolders() {
 }
 
 function loadItems() {
-  performLfmRequest('jsonitems', {show_list: show_list}, 'html')
+  performVaultboxRequest('jsonitems', {show_list: show_list}, 'html')
     .done(function (data) {
       var response = JSON.parse(data);
       $('#content').html(response.html);
@@ -162,7 +162,7 @@ function loadItems() {
 }
 
 function createFolder(folder_name) {
-  performLfmRequest('newfolder', {name: folder_name})
+  performVaultboxRequest('newfolder', {name: folder_name})
     .done(refreshFoldersAndItems);
 }
 
@@ -172,7 +172,7 @@ function rename(item_name) {
     value: item_name,
     callback: function (result) {
       if (result == null) return;
-      performLfmRequest('rename', {
+      performVaultboxRequest('rename', {
         file: item_name,
         new_name: result
       }).done(refreshFoldersAndItems);
@@ -183,26 +183,26 @@ function rename(item_name) {
 function trash(item_name) {
   bootbox.confirm(lang['message-delete'], function (result) {
     if (result == true) {
-      performLfmRequest('delete', {items: item_name})
+      performVaultboxRequest('delete', {items: item_name})
         .done(refreshFoldersAndItems);
     }
   });
 }
 
 function cropImage(image_name) {
-  performLfmRequest('crop', {img: image_name})
+  performVaultboxRequest('crop', {img: image_name})
     .done(hideNavAndShowEditor);
 }
 
 function resizeImage(image_name) {
-  performLfmRequest('resize', {img: image_name})
+  performVaultboxRequest('resize', {img: image_name})
     .done(hideNavAndShowEditor);
 }
 
 function download(file_name) {
   var data = defaultParameters();
   data['file'] = file_name;
-  location.href = lfm_route + '/download?' + $.param(data);
+  location.href = Vaultbox_route + '/download?' + $.param(data);
 }
 
 // ==================================

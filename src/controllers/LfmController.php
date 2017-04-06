@@ -1,16 +1,16 @@
 <?php
 
-namespace Jeylabs\Laravelfilemanager\controllers;
+namespace Jeylabs\Vaultbox\controllers;
 
-use Jeylabs\Laravelfilemanager\traits\LfmHelpers;
+use Jeylabs\Vaultbox\traits\VaultboxHelpers;
 
 /**
- * Class LfmController
- * @package Jeylabs\Laravelfilemanager\controllers
+ * Class VaultboxController
+ * @package Jeylabs\Vaultbox\controllers
  */
-class LfmController extends Controller
+class VaultboxController extends Controller
 {
-    use LfmHelpers;
+    use VaultboxHelpers;
 
     protected $success_response = 'OK';
 
@@ -28,7 +28,7 @@ class LfmController extends Controller
      */
     public function show()
     {
-        return view('laravel-filemanager::index');
+        return view('vaultbox::index');
     }
 
     public function getErrors()
@@ -36,11 +36,11 @@ class LfmController extends Controller
         $arr_errors = [];
 
         if (! extension_loaded('gd') && ! extension_loaded('imagick')) {
-            array_push($arr_errors, trans('laravel-filemanager::lfm.message-extension_not_found'));
+            array_push($arr_errors, trans('vaultbox::Vaultbox.message-extension_not_found'));
         }
 
-        $type_key = $this->currentLfmType();
-        $mine_config = 'lfm.valid_' . $type_key . '_mimetypes';
+        $type_key = $this->currentVaultboxType();
+        $mine_config = 'Vaultbox.valid_' . $type_key . '_mimetypes';
         $config_error = null;
 
         if (!is_array(config($mine_config))) {

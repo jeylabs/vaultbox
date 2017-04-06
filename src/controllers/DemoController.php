@@ -1,12 +1,12 @@
 <?php
 
-namespace Jeylabs\Laravelfilemanager\controllers;
+namespace Jeylabs\Vaultbox\controllers;
 
 /**
  * Class DemoController
- * @package Jeylabs\Laravelfilemanager\controllers
+ * @package Jeylabs\Vaultbox\controllers
  */
-class DemoController extends LfmController
+class DemoController extends VaultboxController
 {
 
     /**
@@ -14,6 +14,6 @@ class DemoController extends LfmController
      */
     public function index()
     {
-        return view('laravel-filemanager::demo');
+        return view('vaultbox::demo');
     }
 }

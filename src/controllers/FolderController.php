@@ -1,14 +1,14 @@
 <?php
 
-namespace Jeylabs\Laravelfilemanager\controllers;
+namespace Jeylabs\Vaultbox\controllers;
 
 use Illuminate\Support\Facades\Storage;
 
 /**
  * Class FolderController
- * @package Jeylabs\Laravelfilemanager\controllers
+ * @package Jeylabs\Vaultbox\controllers
  */
-class FolderController extends LfmController
+class FolderController extends VaultboxController
 {
     /**
      * Get list of folders as json to populate treeview
@@ -32,14 +32,14 @@ class FolderController extends LfmController
             $root_folder_path = parent::getRootFolderPath($folder_type);
 
             array_push($root_folders, (object)[
-                'name' => trans('laravel-filemanager::lfm.title-' . $lang_key),
+                'name' => trans('vaultbox::Vaultbox.title-' . $lang_key),
                 'path' => parent::getInternalPath($root_folder_path),
                 'children' => parent::getDirectories($root_folder_path),
                 'has_next' => !($lang_key == end($folder_types))
             ]);
         }
 
-        return view('laravel-filemanager::tree')
+        return view('vaultbox::tree')
             ->with(compact('root_folders'));
     }
 
@@ -59,7 +59,7 @@ class FolderController extends LfmController
             return $this->error('folder-name');
         } elseif (Storage::exists($path)) {
             return $this->error('folder-exist');
-        } elseif (config('lfm.alphanumeric_directory') && preg_match('/[^\w-]/i', $folder_name)) {
+        } elseif (config('Vaultbox.alphanumeric_directory') && preg_match('/[^\w-]/i', $folder_name)) {
             return $this->error('folder-alnum');
         } else {
             $this->createFolderByPath($path);

@@ -1,13 +1,13 @@
 <?php
 
-namespace Jeylabs\Laravelfilemanager\controllers;
+namespace Jeylabs\Vaultbox\controllers;
 
 
 /**
  * Class ItemsController
- * @package Jeylabs\Laravelfilemanager\controllers
+ * @package Jeylabs\Vaultbox\controllers
  */
-class ItemsController extends LfmController
+class ItemsController extends VaultboxController
 {
     /**
      * Get the images to load for a selected folder
@@ -36,14 +36,14 @@ class ItemsController extends LfmController
         if ($show_list === "1") {
             $view_type = 'list';
         } elseif (is_null($show_list)) {
-            $type_key = $this->currentLfmType();
-            $startup_view = config('lfm.' . $type_key . 's_startup_view');
+            $type_key = $this->currentVaultboxType();
+            $startup_view = config('Vaultbox.' . $type_key . 's_startup_view');
 
             if (in_array($startup_view, ['list', 'grid'])) {
                 $view_type = $startup_view;
             }
         }
 
-        return 'laravel-filemanager::' . $view_type . '-view';
+        return 'vaultbox::' . $view_type . '-view';
     }
 }

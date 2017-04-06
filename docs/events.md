@@ -1,16 +1,16 @@
 ## List of events
- * Jeylabs\Laravelfilemanager\Events\ImageIsUploading
- * Jeylabs\Laravelfilemanager\Events\ImageWasUploaded
- * Jeylabs\Laravelfilemanager\Events\ImageIsRenaming
- * Jeylabs\Laravelfilemanager\Events\ImageWasRenamed
- * Jeylabs\Laravelfilemanager\Events\ImageIsDeleting
- * Jeylabs\Laravelfilemanager\Events\ImageWasDeleted
- * Jeylabs\Laravelfilemanager\Events\FolderIsRenaming
- * Jeylabs\Laravelfilemanager\Events\FolderWasRenamed
- * Jeylabs\Laravelfilemanager\Events\ImageIsResizing
- * Jeylabs\Laravelfilemanager\Events\ImageWasResized
- * Jeylabs\Laravelfilemanager\Events\ImageIsCropping
- * Jeylabs\Laravelfilemanager\Events\ImageWasCropped
+ * Jeylabs\Vaultbox\Events\ImageIsUploading
+ * Jeylabs\Vaultbox\Events\ImageWasUploaded
+ * Jeylabs\Vaultbox\Events\ImageIsRenaming
+ * Jeylabs\Vaultbox\Events\ImageWasRenamed
+ * Jeylabs\Vaultbox\Events\ImageIsDeleting
+ * Jeylabs\Vaultbox\Events\ImageWasDeleted
+ * Jeylabs\Vaultbox\Events\FolderIsRenaming
+ * Jeylabs\Vaultbox\Events\FolderWasRenamed
+ * Jeylabs\Vaultbox\Events\ImageIsResizing
+ * Jeylabs\Vaultbox\Events\ImageWasResized
+ * Jeylabs\Vaultbox\Events\ImageIsCropping
+ * Jeylabs\Vaultbox\Events\ImageWasCropped
 
 
 ## How to use

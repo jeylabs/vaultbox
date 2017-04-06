@@ -1,6 +1,6 @@
 {
-  "name": "jeylabs/laravel-filemanager",
-  "description": "A file upload/editor intended for use with Laravel 5 and CKEditor / TinyMCE",
+  "name": "jeylabs/vaultbox",
+  "description": "A file upload/editor intended for use with CKEditor / TinyMCE",
   "license": "MIT",
   "keywords": [
     "filemanager",
@@ -14,16 +14,8 @@
   ],
   "authors": [
     {
-      "name": "Trevor Sawler",
-      "email": "trevor.sawler@gmail.com"
-    },
-    {
-      "name": "Unisharp Ltd.",
-      "email": "unisharp-service@unisharp.com"
-    },
-    {
       "name": "jEyLabs",
-      "email": "packages@jeylabs.com"
+      "email": "admin@jeylabs.com"
     }
   ],
   "require": {
@@ -42,7 +34,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Jeylabs\\Laravelfilemanager\\": "src/"
+      "Jeylabs\\Vaultbox\\": "src/"
     }
   }
 }

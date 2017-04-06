@@ -15,7 +15,7 @@ return [
     'menu-crop'         => 'Rogner',
 
     'title-page'        => 'Gestionnaire de fichiers',
-    'title-panel'       => 'Laravel FileManager',
+    'title-panel'       => 'Vaultbox',
     'title-upload'      => 'Envoyer un/des fichier(s)',
     'title-view'        => 'Voir le fichier',
     'title-root'        => 'Fichiers',

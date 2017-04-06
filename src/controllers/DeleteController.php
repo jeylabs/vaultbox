@@ -1,16 +1,16 @@
 <?php
 
-namespace Jeylabs\Laravelfilemanager\controllers;
+namespace Jeylabs\Vaultbox\controllers;
 
 use Illuminate\Support\Facades\Storage;
-use Jeylabs\Laravelfilemanager\Events\ImageIsDeleting;
-use Jeylabs\Laravelfilemanager\Events\ImageWasDeleted;
+use Jeylabs\Vaultbox\Events\ImageIsDeleting;
+use Jeylabs\Vaultbox\Events\ImageWasDeleted;
 
 /**
  * Class CropController
- * @package Jeylabs\Laravelfilemanager\controllers
+ * @package Jeylabs\Vaultbox\controllers
  */
-class DeleteController extends LfmController
+class DeleteController extends VaultboxController
 {
     /**
      * Delete image and associated thumbnail

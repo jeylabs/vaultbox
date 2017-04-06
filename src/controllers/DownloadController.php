@@ -1,12 +1,12 @@
 <?php
 
-namespace Jeylabs\Laravelfilemanager\controllers;
+namespace Jeylabs\Vaultbox\controllers;
 
 /**
  * Class DownloadController
- * @package Jeylabs\Laravelfilemanager\controllers
+ * @package Jeylabs\Vaultbox\controllers
  */
-class DownloadController extends LfmController
+class DownloadController extends VaultboxController
 {
     /**
      * Download a file

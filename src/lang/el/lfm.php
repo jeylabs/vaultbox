@@ -15,7 +15,7 @@ return [
     'menu-crop'         => 'Κόψιμο',
 
     'title-page'        => 'Διαχείριση αρχείων',
-    'title-panel'       => 'Laravel FileManager',
+    'title-panel'       => 'Vaultbox',
     'title-upload'      => 'Ανέβασμα αρχείου',
     'title-view'        => 'Επισκόπηση αρχείου',
     'title-root'        => 'Αρχεία',

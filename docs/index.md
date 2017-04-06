@@ -1,6 +1,6 @@
-[![Latest Stable Version](https://poser.pugx.org/jeylabs/laravel-filemanager/v/stable)](https://packagist.org/packages/Jeylabs/laravel-filemanager)
-[![Total Downloads](https://poser.pugx.org/jeylabs/laravel-filemanager/downloads)](https://packagist.org/packages/Jeylabs/laravel-filemanager)
-[![License](https://poser.pugx.org/jeylabs/laravel-filemanager/license)](https://packagist.org/packages/Jeylabs/laravel-filemanager)
+[![Latest Stable Version](https://poser.pugx.org/jeylabs/vaultbox/v/stable)](https://packagist.org/packages/Jeylabs/vaultbox)
+[![Total Downloads](https://poser.pugx.org/jeylabs/vaultbox/downloads)](https://packagist.org/packages/Jeylabs/vaultbox)
+[![License](https://poser.pugx.org/jeylabs/vaultbox/license)](https://packagist.org/packages/Jeylabs/vaultbox)
 
 ## Features
  * CKEditor and TinyMCE integration
@@ -17,13 +17,13 @@ PR is welcome!
 ## Screenshots
 > Standalone button :
 
-![Standalone button demo](https://jeylabs.github.io/laravel-filemanager/images/lfm01.png)
+![Standalone button demo](https://jeylabs.github.io/vaultbox/images/Vaultbox01.png)
 
 > Grid view :
 
-![Grid view demo](https://jeylabs.github.io/laravel-filemanager/images/lfm02.png)
+![Grid view demo](https://jeylabs.github.io/vaultbox/images/Vaultbox02.png)
 
 > List view :
 
-![List view demo](https://jeylabs.github.io/laravel-filemanager/images/lfm03.png)
+![List view demo](https://jeylabs.github.io/vaultbox/images/Vaultbox03.png)
   

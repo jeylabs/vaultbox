@@ -1,16 +1,16 @@
 <?php
 
-namespace Jeylabs\Laravelfilemanager\controllers;
+namespace Jeylabs\Vaultbox\controllers;
 
 use Intervention\Image\Facades\Image;
-use Jeylabs\Laravelfilemanager\Events\ImageIsResizing;
-use Jeylabs\Laravelfilemanager\Events\ImageWasResized;
+use Jeylabs\Vaultbox\Events\ImageIsResizing;
+use Jeylabs\Vaultbox\Events\ImageWasResized;
 
 /**
  * Class ResizeController
- * @package Jeylabs\Laravelfilemanager\controllers
+ * @package Jeylabs\Vaultbox\controllers
  */
-class ResizeController extends LfmController
+class ResizeController extends VaultboxController
 {
     /**
      * Dipsplay image for resizing
@@ -45,7 +45,7 @@ class ResizeController extends LfmController
             $scaled = true;
         }
 
-        return view('laravel-filemanager::resize')
+        return view('vaultbox::resize')
             ->with('img', parent::getFileUrl($image))
             ->with('height', number_format($height, 0))
             ->with('width', $width)

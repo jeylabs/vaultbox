@@ -4,19 +4,19 @@
 
   @foreach($directories as $directory)
   <div class="col-sm-4 col-md-3 col-lg-2 img-row">
-    @include('laravel-filemanager::folders')
+    @include('vaultbox::folders')
   </div>
   @endforeach
 
   @foreach($files as $key => $file)
   <div class="col-sm-4 col-md-3 col-lg-2 img-row">
-    @include('laravel-filemanager::item')
+    @include('vaultbox::item')
   </div>
   @endforeach
 
   @else
   <div class="col-md-12">
-    <p>{{ Lang::get('laravel-filemanager::lfm.message-empty') }}</p>
+    <p>{{ Lang::get('vaultbox::Vaultbox.message-empty') }}</p>
   </div>
   @endif
 

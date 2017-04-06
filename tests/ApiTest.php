@@ -39,7 +39,7 @@ class ApiTest extends Illuminate\Foundation\Testing\TestCase
             'name' => ''
         ]);
 
-        Config::set('lfm.alphanumeric_directory', true);
+        Config::set('vaultbox.alphanumeric_directory', true);
         $create_alphanumeric = $this->getResponseByRouteName('getAddfolder', [
             'name' => '測試資料夾'
         ]);
@@ -54,16 +54,16 @@ class ApiTest extends Illuminate\Foundation\Testing\TestCase
         ]);
 
         $this->assertEquals('OK', $create);
-        $this->assertEquals(trans('laravel-filemanager::lfm.error-folder-exist'), $create_duplicate);
-        $this->assertEquals(trans('laravel-filemanager::lfm.error-folder-name'), $create_empty);
-        $this->assertEquals(trans('laravel-filemanager::lfm.error-folder-alnum'), $create_alphanumeric);
+        $this->assertEquals(trans('vaultbox::Vaultbox.error-folder-exist'), $create_duplicate);
+        $this->assertEquals(trans('vaultbox::Vaultbox.error-folder-name'), $create_empty);
+        $this->assertEquals(trans('vaultbox::Vaultbox.error-folder-alnum'), $create_alphanumeric);
         $this->assertEquals('OK', $rename);
         $this->assertEquals('OK', $delete);
     }
 
     private function getResponseByRouteName($route_name, $input = [])
     {
-        $response = $this->call('GET', route('Jeylabs.lfm.' . $route_name), $input);
+        $response = $this->call('GET', route('jeylabs.vaultbox.' . $route_name), $input);
         $data = json_encode($response);
         return $response->getContent();
     }

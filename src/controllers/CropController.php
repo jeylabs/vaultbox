@@ -1,16 +1,16 @@
 <?php
 
-namespace Jeylabs\Laravelfilemanager\controllers;
+namespace Jeylabs\Vaultbox\controllers;
 
 use Intervention\Image\Facades\Image;
-use Jeylabs\Laravelfilemanager\Events\ImageIsCropping;
-use Jeylabs\Laravelfilemanager\Events\ImageWasCropped;
+use Jeylabs\Vaultbox\Events\ImageIsCropping;
+use Jeylabs\Vaultbox\Events\ImageWasCropped;
 
 /**
  * Class CropController
- * @package Jeylabs\Laravelfilemanager\controllers
+ * @package Jeylabs\Vaultbox\controllers
  */
-class CropController extends LfmController
+class CropController extends VaultboxController
 {
     /**
      * Show crop page
@@ -22,7 +22,7 @@ class CropController extends LfmController
         $working_dir = request('working_dir');
         $img = parent::getFileUrl(request('img'));
 
-        return view('laravel-filemanager::crop')
+        return view('vaultbox::crop')
             ->with(compact('working_dir', 'img'));
     }
 
@@ -47,7 +47,7 @@ class CropController extends LfmController
 
         // make new thumbnail
         Image::make($image_path)
-            ->fit(config('lfm.thumb_img_width', 200), config('lfm.thumb_img_height', 200))
+            ->fit(config('Vaultbox.thumb_img_width', 200), config('Vaultbox.thumb_img_height', 200))
             ->save(parent::getThumbPath(parent::getName($image_path)));
         event(new ImageWasCropped($image_path));
     }

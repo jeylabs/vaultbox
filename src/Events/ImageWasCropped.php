@@ -1,6 +1,6 @@
 <?php
 
-namespace Jeylabs\Laravelfilemanager\Events;
+namespace Jeylabs\Vaultbox\Events;
 
 class ImageWasCropped
 {

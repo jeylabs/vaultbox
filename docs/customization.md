@@ -1,5 +1,5 @@
 ## Routes
-1. Copy the routes in `/vendor/jeylabs/laravel-filemanager/src/routes.php`
+1. Copy the routes in `/vendor/jeylabs/vaultbox/src/routes.php`
 
 1. Make sure urls below is correspond to your route (remember to include type parameter `?type=Images` or `?type=Files`) :
   * CKEditor
@@ -22,13 +22,13 @@
     ```
 
 ## Views
-Copy views to `resources/views/vendor/jeylabs/laravel-filemanager/` :
+Copy views to `resources/views/vendor/jeylabs/vaultbox/` :
 
 ```bash
-php artisan vendor:publish --tag=lfm_view
+php artisan vendor:publish --tag=Vaultbox_view
 ```
 
 ## Translations
 
-1. Copy `vendor/jeylabs/laravel-filemanager/src/lang/en` to `/resources/lang/vendor/laravel-filemanager/<YOUR LANGUAGE>/lfm.php`.
+1. Copy `vendor/jeylabs/vaultbox/src/lang/en` to `/resources/lang/vendor/vaultbox/<YOUR LANGUAGE>/Vaultbox.php`.
 1. Edit the file as you please.

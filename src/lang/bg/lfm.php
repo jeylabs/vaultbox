@@ -15,7 +15,7 @@ return [
     'menu-crop'         => 'Отрежи',
 
     'title-page'        => 'Файлов мениджър',
-    'title-panel'       => 'Laravel FileManager',
+    'title-panel'       => 'Vaultbox',
     'title-upload'      => 'Качи файл',
     'title-view'        => 'Виж файл',
     'title-root'        => 'Файлове',
