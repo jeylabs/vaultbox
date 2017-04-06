@@ -27,16 +27,16 @@ class VaultboxServiceProvider extends ServiceProvider {
         $this->loadViewsFrom(__DIR__.'/views', 'vaultbox');
 
         $this->publishes([
-            __DIR__ . '/config/vaultbox.php' => base_path('config/gitvaultbox.php'),
-        ], 'Vaultbox_config');
+            __DIR__ . '/config/vaultbox.php' => base_path('config/vaultbox.php'),
+        ], 'vaultbox_config');
 
         $this->publishes([      
             __DIR__.'/../public' => public_path('vendor/vaultbox'),     
-        ], 'Vaultbox_public');
+        ], 'vaultbox_public');
 
         $this->publishes([
             __DIR__.'/views'  => base_path('resources/views/vendor/vaultbox'),
-        ], 'Vaultbox_view');
+        ], 'vaultbox_view');
     }
 
     /**
