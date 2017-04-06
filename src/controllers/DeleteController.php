@@ -2,6 +2,7 @@
 
 namespace Jeylabs\Vaultbox\controllers;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Jeylabs\Vaultbox\Events\ImageIsDeleting;
 use Jeylabs\Vaultbox\Events\ImageWasDeleted;
@@ -34,7 +35,7 @@ class DeleteController extends VaultboxController
             return $this->error('folder-not-found', ['folder' => $file_to_delete]);
         }
 
-        if (Storage::isDirectory($file_to_delete)) {
+        if (File::isDirectory($file_to_delete)) {
             if (!parent::directoryIsEmpty($file_to_delete)) {
                 return $this->error('delete-folder');
             }

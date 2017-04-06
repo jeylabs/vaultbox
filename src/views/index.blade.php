@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-  <title>{{ trans('vaultbox::Vaultbox.title-page') }}</title>
+  <title>{{ trans('vaultbox::vaultbox.title-page') }}</title>
   <link rel="shortcut icon" type="image/png" href="{{ asset('vendor/vaultbox/img/folder.png') }}">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="{{ asset('vendor/vaultbox/css/cropper.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('/vendor/vaultbox/css/Vaultbox.css') }}">
+  <link rel="stylesheet" href="{{ asset('/vendor/vaultbox/css/vaultbox.css') }}">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.css">
 </head>
 <body>
   <div class="container-fluid">
     <div class="panel panel-primary" id="wrapper">
       <div class="panel-heading">
-        <h3 class="panel-title">{{ trans('vaultbox::Vaultbox.title-panel') }}</h3>
+        <h3 class="panel-title">{{ trans('vaultbox::vaultbox.title-panel') }}</h3>
       </div>
       <div class="panel-body">
         <div class="row">
@@ -37,29 +37,29 @@
                 <ul class="nav navbar-nav" id="nav-buttons">
                   <li>
                     <a href="#" id="to-previous">
-                      <i class="fa fa-arrow-left"></i> {{ trans('vaultbox::Vaultbox.nav-back') }}
+                      <i class="fa fa-arrow-left"></i> {{ trans('vaultbox::vaultbox.nav-back') }}
                     </a>
                   </li>
                   <li><a style='cursor:default;'>|</a></li>
                   <li>
                     <a href="#" id="add-folder">
-                      <i class="fa fa-plus"></i> {{ trans('vaultbox::Vaultbox.nav-new') }}
+                      <i class="fa fa-plus"></i> {{ trans('vaultbox::vaultbox.nav-new') }}
                     </a>
                   </li>
                   <li>
                     <a href="#" id="upload" data-toggle="modal" data-target="#uploadModal">
-                      <i class="fa fa-upload"></i> {{ trans('vaultbox::Vaultbox.nav-upload') }}
+                      <i class="fa fa-upload"></i> {{ trans('vaultbox::vaultbox.nav-upload') }}
                     </a>
                   </li>
                   <li><a style='cursor:default;'>|</a></li>
                   <li>
                     <a href="#" id="thumbnail-display">
-                      <i class="fa fa-picture-o"></i> {{ trans('vaultbox::Vaultbox.nav-thumbnails') }}
+                      <i class="fa fa-picture-o"></i> {{ trans('vaultbox::vaultbox.nav-thumbnails') }}
                     </a>
                   </li>
                   <li>
                     <a href="#" id="list-display">
-                      <i class="fa fa-list"></i> {{ trans('vaultbox::Vaultbox.nav-list') }}
+                      <i class="fa fa-list"></i> {{ trans('vaultbox::vaultbox.nav-list') }}
                     </a>
                   </li>
                 </ul>
@@ -80,12 +80,12 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aia-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">{{ trans('vaultbox::Vaultbox.title-upload') }}</h4>
+          <h4 class="modal-title" id="myModalLabel">{{ trans('vaultbox::vaultbox.title-upload') }}</h4>
         </div>
         <div class="modal-body">
           <form action="{{ route('jeylabs.vaultbox.upload') }}" role='form' id='uploadForm' name='uploadForm' method='post' enctype='multipart/form-data'>
             <div class="form-group" id="attachment">
-              <label for='upload' class='control-label'>{{ trans('vaultbox::Vaultbox.message-choose') }}</label>
+              <label for='upload' class='control-label'>{{ trans('vaultbox::vaultbox.message-choose') }}</label>
               <div class="controls">
                 <div class="input-group" style="width: 100%">
                   <input type="file" id="upload" name="upload[]" multiple="multiple">
@@ -98,8 +98,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('vaultbox::Vaultbox.btn-close') }}</button>
-          <button type="button" class="btn btn-primary" id="upload-btn">{{ trans('vaultbox::Vaultbox.btn-upload') }}</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('vaultbox::vaultbox.btn-close') }}</button>
+          <button type="button" class="btn btn-primary" id="upload-btn">{{ trans('vaultbox::vaultbox.btn-upload') }}</button>
         </div>
       </div>
     </div>
@@ -113,11 +113,9 @@
   <script src="{{ asset('vendor/vaultbox/js/jquery.form.min.js') }}"></script>
   <script>
     var route_prefix = "{{ url('/') }}";
-    var Vaultbox_route = "{{ url(config('Vaultbox.prefix')) }}";
-    var lang = {!! json_encode(trans('vaultbox::Vaultbox')) !!};
+    var Vaultbox_route = "{{ url(config('vaultbox.prefix')) }}";
+    var lang = {!! json_encode(trans('vaultbox::vaultbox')) !!};
   </script>
   <script src="{{ asset('vendor/vaultbox/js/script.js') }}"></script>
-  {{-- Use the line below instead of the above if you need to ignore browser cache. --}}
-  <!-- <script>{!! \File::get(base_path('vendor/Jeylabs/vaultbox/public/js/script.js')) !!}</script> -->
 </body>
 </html>

@@ -40,12 +40,15 @@ trait VaultboxHelpers
 
     private function composeSegments($type, $is_thumb, $file_name)
     {
-        $full_path = implode($this->ds, [
+        $paths = [
             $this->getPathPrefix($type),
             $this->getFormatedWorkingDir(),
             $this->appendThumbFolderPath($is_thumb),
             $file_name
-        ]);
+        ];
+
+        $paths = array_filter($paths);
+        $full_path = implode($this->ds, $paths);
 
         $full_path = $this->removeDuplicateSlash($full_path);
         $full_path = $this->translateToVaultboxPath($full_path);
@@ -60,10 +63,10 @@ trait VaultboxHelpers
             $default_folder_name = 'photos';
         }
 
-        $prefix = config('Vaultbox.' . $this->currentVaultboxType() . 's_folder_name', $default_folder_name);
+        $prefix = config('vaultbox.' . $this->currentVaultboxType() . 's_folder_name', $default_folder_name);
 
         if ($type === 'dir') {
-            $prefix = config('Vaultbox.base_directory', 'public') . '/' . $prefix;
+            $prefix = config('vaultbox.base_directory', 'public') . '/' . $prefix;
         }
 
         return $prefix;
@@ -88,10 +91,10 @@ trait VaultboxHelpers
     private function appendThumbFolderPath($is_thumb)
     {
         if (!$is_thumb) {
-            return;
+            return null;
         }
 
-        $thumb_folder_name = config('Vaultbox.thumb_folder_name');
+        $thumb_folder_name = config('vaultbox.thumb_folder_name');
         //if user is inside thumbs folder there is no need
         // to add thumbs substring to the end of $url
         $in_thumb_folder = preg_match('/'.$thumb_folder_name.'$/i', $this->getFormatedWorkingDir());
@@ -106,7 +109,7 @@ trait VaultboxHelpers
         if ($type === 'user') {
             $folder_name = $this->getUserSlug();
         } else {
-            $folder_name = config('Vaultbox.shared_folder_name');
+            $folder_name = config('vaultbox.shared_folder_name');
         }
 
         return $this->ds . $folder_name;
@@ -214,7 +217,6 @@ trait VaultboxHelpers
     public function currentVaultboxType($is_for_url = false)
     {
         $file_type = request('type', 'Images');
-
         if ($is_for_url) {
             return ucfirst($file_type);
         } else {
@@ -224,12 +226,12 @@ trait VaultboxHelpers
 
     public function allowMultiUser()
     {
-        return config('Vaultbox.allow_multi_user') === true;
+        return config('vaultbox.allow_multi_user') === true;
     }
 
     public function enabledShareFolder()
     {
-        return config('Vaultbox.allow_share_folder') === true;
+        return config('vaultbox.allow_share_folder') === true;
     }
 
 
@@ -239,7 +241,7 @@ trait VaultboxHelpers
 
     public function getDirectories($path)
     {
-        $thumb_folder_name = config('Vaultbox.thumb_folder_name');
+        $thumb_folder_name = config('vaultbox.thumb_folder_name');
         $all_directories = Storage::directories($path);
 
         $arr_dir = [];
@@ -262,25 +264,23 @@ trait VaultboxHelpers
     {
         $arr_files = [];
 
-        foreach (Storage::files($path) as $key => $file) {
+        foreach (File::files($path) as $key => $file) {
             $file_name = $this->getName($file);
 
             if ($this->fileIsImage($file)) {
-                $file_type = Storage::mimeType($file);
+                $file_type = File::mimeType($file);
                 $icon = 'fa-image';
             } else {
-                $extension = strtolower(Storage::extension($file_name));
-                $file_type = config('Vaultbox.file_type_array.' . $extension) ?: 'File';
-                $icon = config('Vaultbox.file_icon_array.' . $extension) ?: 'fa-file';
+                $extension = strtolower(File::extension($file_name));
+                $file_type = config('vaultbox.file_type_array.' . $extension) ?: 'File';
+                $icon = config('vaultbox.file_icon_array.' . $extension) ?: 'fa-file';
             }
 
+            $thumb_url = null;
             $thumb_path = $this->getThumbPath($file_name);
-            if (Storage::exists($thumb_path)) {
+            if (File::exists($thumb_path)) {
                 $thumb_url = $this->getThumbUrl($file_name) . '?timestamp=' . filemtime($thumb_path);
-            } else {
-                $thumb_url = null;
             }
-
 
             $arr_files[$key] = [
                 'name'      => $file_name,
@@ -298,14 +298,14 @@ trait VaultboxHelpers
 
     public function createFolderByPath($path)
     {
-        if (!Storage::exists($path)) {
+        if (!File::exists($path)) {
             Storage::makeDirectory($path, $mode = 0777, true, true);
         }
     }
 
     public function directoryIsEmpty($directory_path)
     {
-        return count(Storage::allFiles($directory_path)) == 0;
+        return count(File::allFiles($directory_path)) == 0;
     }
 
     public function fileIsImage($file)
@@ -313,7 +313,7 @@ trait VaultboxHelpers
         if ($file instanceof UploadedFile) {
             $mime_type = $file->getMimeType();
         } else {
-            $mime_type = Storage::mimeType($file);
+            $mime_type = File::mimeType($file);
         }
 
         return starts_with($mime_type, 'image');
@@ -326,14 +326,14 @@ trait VaultboxHelpers
 
     public function getUserSlug()
     {
-        $slug_of_user = config('Vaultbox.user_field');
+        $slug_of_user = config('vaultbox.user_field');
 
         return empty(auth()->user()) ? '' : auth()->user()->$slug_of_user;
     }
 
     public function error($error_type, $variables = [])
     {
-        return trans('vaultbox::Vaultbox.error-' . $error_type, $variables);
+        return trans('vaultbox::vaultbox.error-' . $error_type, $variables);
     }
 
     public function humanFilesize($bytes, $decimals = 2)

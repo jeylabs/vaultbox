@@ -32,7 +32,7 @@ class FolderController extends VaultboxController
             $root_folder_path = parent::getRootFolderPath($folder_type);
 
             array_push($root_folders, (object)[
-                'name' => trans('vaultbox::Vaultbox.title-' . $lang_key),
+                'name' => trans('vaultbox::vaultbox.title-' . $lang_key),
                 'path' => parent::getInternalPath($root_folder_path),
                 'children' => parent::getDirectories($root_folder_path),
                 'has_next' => !($lang_key == end($folder_types))
@@ -59,7 +59,7 @@ class FolderController extends VaultboxController
             return $this->error('folder-name');
         } elseif (Storage::exists($path)) {
             return $this->error('folder-exist');
-        } elseif (config('Vaultbox.alphanumeric_directory') && preg_match('/[^\w-]/i', $folder_name)) {
+        } elseif (config('vaultbox.alphanumeric_directory') && preg_match('/[^\w-]/i', $folder_name)) {
             return $this->error('folder-alnum');
         } else {
             $this->createFolderByPath($path);

@@ -17,7 +17,6 @@ class ItemsController extends VaultboxController
     public function getItems()
     {
         $path = $this->getCurrentPath();
-
         return [
             'html' => (string)view($this->getView())->with([
                 'files'       => $this->getFilesWithInfo($path),
@@ -37,7 +36,7 @@ class ItemsController extends VaultboxController
             $view_type = 'list';
         } elseif (is_null($show_list)) {
             $type_key = $this->currentVaultboxType();
-            $startup_view = config('Vaultbox.' . $type_key . 's_startup_view');
+            $startup_view = config('vaultbox.' . $type_key . 's_startup_view');
 
             if (in_array($startup_view, ['list', 'grid'])) {
                 $view_type = $startup_view;

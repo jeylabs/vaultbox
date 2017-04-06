@@ -30,8 +30,8 @@
       <br>
       <br>
 
-      <button class="btn btn-primary" onclick="performCrop()">{{ trans('vaultbox::Vaultbox.btn-crop') }}</button>
-      <button class="btn btn-info" onclick="loadItems()">{{ trans('vaultbox::Vaultbox.btn-cancel') }}</button>
+      <button class="btn btn-primary" onclick="performCrop()">{{ trans('vaultbox::vaultbox.btn-crop') }}</button>
+      <button class="btn btn-info" onclick="loadItems()">{{ trans('vaultbox::vaultbox.btn-cancel') }}</button>
       <form action="{{ route('jeylabs.vaultbox.getCrop') }}" role='form' name='cropForm' id='cropForm' mathod='post'>
         <input type="hidden" id="img" name="img" value="{{ $img }}">
         <input type="hidden" id="working_dir" name="working_dir" value="{{ $working_dir }}">

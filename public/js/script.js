@@ -156,7 +156,6 @@ function loadItems() {
       $('#content').html(response.html);
       $('#nav-buttons').removeClass('hidden');
       $('#working_dir').val(response.working_dir);
-      console.log('Current working_dir : ' + $('#working_dir').val());
       setOpenFolders();
     });
 }

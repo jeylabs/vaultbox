@@ -54,9 +54,9 @@ class ApiTest extends Illuminate\Foundation\Testing\TestCase
         ]);
 
         $this->assertEquals('OK', $create);
-        $this->assertEquals(trans('vaultbox::Vaultbox.error-folder-exist'), $create_duplicate);
-        $this->assertEquals(trans('vaultbox::Vaultbox.error-folder-name'), $create_empty);
-        $this->assertEquals(trans('vaultbox::Vaultbox.error-folder-alnum'), $create_alphanumeric);
+        $this->assertEquals(trans('vaultbox::vaultbox.error-folder-exist'), $create_duplicate);
+        $this->assertEquals(trans('vaultbox::vaultbox.error-folder-name'), $create_empty);
+        $this->assertEquals(trans('vaultbox::vaultbox.error-folder-alnum'), $create_alphanumeric);
         $this->assertEquals('OK', $rename);
         $this->assertEquals('OK', $delete);
     }

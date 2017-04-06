@@ -69,8 +69,7 @@ class ResizeController extends VaultboxController
             Image::make($image_path)->resize($width, $height)->save();
             event(new ImageWasResized($image_path));
             return $this->success_response;
-        } catch (Exception $e) {
-            return "width : " . $width . " height: " . $height;
+        } catch (\Exception $e) {
             return $e;
         }
     }

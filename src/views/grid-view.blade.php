@@ -16,7 +16,7 @@
 
   @else
   <div class="col-md-12">
-    <p>{{ Lang::get('vaultbox::Vaultbox.message-empty') }}</p>
+    <p>{{ Lang::get('vaultbox::vaultbox.message-empty') }}</p>
   </div>
   @endif
 

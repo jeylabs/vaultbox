@@ -9,37 +9,37 @@
       <tbody>
         @if ($scaled)
         <tr>
-          <td>{{ trans('vaultbox::Vaultbox.resize-ratio') }}</td>
+          <td>{{ trans('vaultbox::vaultbox.resize-ratio') }}</td>
           <td>{{ number_format($ratio, 2) }}</td>
         </tr>
         <tr>
-          <td>{{ trans('vaultbox::Vaultbox.resize-scaled') }}</td>
+          <td>{{ trans('vaultbox::vaultbox.resize-scaled') }}</td>
           <td>
-            {{ trans('vaultbox::Vaultbox.resize-true') }}
+            {{ trans('vaultbox::vaultbox.resize-true') }}
           </td>
         </tr>
         @endif
         <tr>
-          <td>{{ trans('vaultbox::Vaultbox.resize-old-height') }}</td>
+          <td>{{ trans('vaultbox::vaultbox.resize-old-height') }}</td>
           <td>{{ $original_height }}px</td>
         </tr>
         <tr>
-          <td>{{ trans('vaultbox::Vaultbox.resize-old-width') }}</td>
+          <td>{{ trans('vaultbox::vaultbox.resize-old-width') }}</td>
           <td>{{ $original_width }}px</td>
         </tr>
         <tr>
-          <td>{{ trans('vaultbox::Vaultbox.resize-new-height') }}</td>
+          <td>{{ trans('vaultbox::vaultbox.resize-new-height') }}</td>
           <td><span id="height_display"></span></td>
         </tr>
         <tr>
-          <td>{{ trans('vaultbox::Vaultbox.resize-new-width') }}</td>
+          <td>{{ trans('vaultbox::vaultbox.resize-new-width') }}</td>
           <td><span id="width_display"></span></td>
         </tr>
       </tbody>
     </table>
 
-    <button class="btn btn-primary" onclick="doResize()">{{ trans('vaultbox::Vaultbox.btn-resize') }}</button>
-    <button class="btn btn-info" onclick="loadItems()">{{ trans('vaultbox::Vaultbox.btn-cancel') }}</button>
+    <button class="btn btn-primary" onclick="doResize()">{{ trans('vaultbox::vaultbox.btn-resize') }}</button>
+    <button class="btn btn-info" onclick="loadItems()">{{ trans('vaultbox::vaultbox.btn-cancel') }}</button>
 
     <input type="hidden" name="ratio" value="{{ $ratio }}"><br>
     <input type="hidden" name="scaled" value="{{ $scaled }}"><br>

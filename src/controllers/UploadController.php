@@ -99,8 +99,16 @@ class UploadController extends VaultboxController
         $file_size = $file->getSize() / 1000;
         $type_key = $this->currentVaultboxType();
 
-        if (config('Vaultbox.should_validate_size')) {
-            $max_size = config('Vaultbox.max_' . $type_key . '_size', 0);
+        if (config('vaultbox.should_validate_mime')) {
+            $mine_config = 'lfm.valid_' . $type_key . '_mimetypes';
+            $valid_mimetypes = config($mine_config, []);
+            if (false === in_array($mimetype, $valid_mimetypes)) {
+                return $this->error('mime') . $mimetype;
+            }
+        }
+
+        if (config('vaultbox.should_validate_size')) {
+            $max_size = config('vaultbox.max_' . $type_key . '_size', 0);
             if ($file_size > $max_size) {
                 return $this->error('size') . $mimetype;
             }
@@ -113,9 +121,9 @@ class UploadController extends VaultboxController
     {
         $new_filename = $this->translateFromUtf8(trim(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)));
 
-        if (config('Vaultbox.rename_file') === true) {
+        if (config('vaultbox.rename_file') === true) {
             $new_filename = uniqid();
-        } elseif (config('Vaultbox.alphanumeric_filename') === true) {
+        } elseif (config('vaultbox.alphanumeric_filename') === true) {
             $new_filename = preg_replace('/[^A-Za-z0-9\-\']/', '_', $new_filename);
         }
 
@@ -129,7 +137,7 @@ class UploadController extends VaultboxController
 
         // create thumb image
         Image::make(parent::getCurrentPath($new_filename))
-            ->fit(config('Vaultbox.thumb_img_width', 200), config('Vaultbox.thumb_img_height', 200))
+            ->fit(config('vaultbox.thumb_img_width', 200), config('vaultbox.thumb_img_height', 200))
             ->save(parent::getThumbPath($new_filename));
     }
 

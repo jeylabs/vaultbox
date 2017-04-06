@@ -2,6 +2,7 @@
 
 namespace Jeylabs\Vaultbox\controllers;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Jeylabs\Vaultbox\Events\ImageIsRenaming;
 use Jeylabs\Vaultbox\Events\ImageWasRenamed;
@@ -25,33 +26,33 @@ class RenameController extends VaultboxController
         $old_file = parent::getCurrentPath($old_name);
 
         if (empty($new_name)) {
-            if (Storage::isDirectory($old_file)) {
+            if (File::isDirectory($old_file)) {
                 return $this->error('folder-name');
             } else {
                 return $this->error('file-name');
             }
         }
 
-        if (!Storage::isDirectory($old_file)) {
+        if (!File::isDirectory($old_file)) {
             $extension = Storage::extension($old_file);
             $new_name = str_replace('.' . $extension, '', $new_name) . '.' . $extension;
         }
 
         $new_file = parent::getCurrentPath($new_name);
 
-        if (Storage::isDirectory($old_file)) {
+        if (File::isDirectory($old_file)) {
             event(new FolderIsRenaming($old_file, $new_file));
         } else {
             event(new ImageIsRenaming($old_file, $new_file));
         }
 
-        if (config('Vaultbox.alphanumeric_directory') && preg_match('/[^\w-]/i', $new_name)) {
+        if (config('vaultbox.alphanumeric_directory') && preg_match('/[^\w-]/i', $new_name)) {
             return $this->error('folder-alnum');
         } elseif (Storage::exists($new_file)) {
             return $this->error('rename');
         }
 
-        if (Storage::isDirectory($old_file)) {
+        if (File::isDirectory($old_file)) {
             Storage::move($old_file, $new_file);
             event(new FolderWasRenamed($old_file, $new_file));
             return $this->success_response;
