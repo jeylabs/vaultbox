@@ -18,8 +18,8 @@ class ItemsController extends VaultboxController
     {
         $path = $this->getCurrentPath();
         return [
-            'html' => (string)view($this->getView())->with([
-                'files'       => $this->getFilesWithInfo($path),
+            'html' => (string) view($this->getView())->with([
+                'files' => $this->getFilesWithInfo($path),
                 'directories' => $this->getDirectories($path)
             ]),
             'working_dir' => $this->getInternalPath($path)

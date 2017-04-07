@@ -2,11 +2,11 @@
 
 namespace Jeylabs\Vaultbox\controllers;
 
-use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Jeylabs\Vaultbox\Events\ImageIsUploading;
 use Jeylabs\Vaultbox\Events\ImageWasUploaded;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class UploadController
@@ -54,23 +54,22 @@ class UploadController extends VaultboxController
         $new_filename  = $this->getNewName($file);
         $new_file_path = parent::getCurrentPath($new_filename);
 
+        chmod($file->path(), 0777);
         event(new ImageIsUploading($new_file_path));
         try {
             if ($this->fileIsImage($file)) {
-                Image::make($file->getRealPath())
-                    ->orientate() //Apply orientation from exif data
-                    ->save($new_file_path, 90);
-
-                $this->makeThumb($new_filename);
+                $image = Image::make($file->getRealPath())
+                    ->orientate()->encode(pathinfo($new_file_path)['extension']);
+                Storage::disk(config('vaultbox.storage.drive'))->put($new_file_path, $image->getEncoded());
+                $this->makeThumb($file, $new_filename);
             } else {
-                chmod($file->path(), 777); // TODO configurable
-                Storage::move($file->path(), $new_file_path);
+                Storage::disk(config('vaultbox.storage.drive'))
+                    ->putFileAs(str_replace($new_filename, '', $new_file_path) ,$file, $new_filename);
             }
         } catch (\Exception $e) {
             return $this->error('invalid');
         }
         event(new ImageWasUploaded(realpath($new_file_path)));
-
         return $new_filename;
     }
 
@@ -88,8 +87,7 @@ class UploadController extends VaultboxController
         }
 
         $new_filename = $this->getNewName($file);
-
-        if (Storage::exists(parent::getCurrentPath($new_filename))) {
+        if (Storage::disk(config('vaultbox.storage.drive'))->exists(parent::getCurrentPath($new_filename))) {
             return $this->error('file-exist');
         }
 
@@ -100,7 +98,7 @@ class UploadController extends VaultboxController
         $type_key = $this->currentVaultboxType();
 
         if (config('vaultbox.should_validate_mime')) {
-            $mine_config = 'lfm.valid_' . $type_key . '_mimetypes';
+            $mine_config = 'vaultbox.valid_' . $type_key . '_mimetypes';
             $valid_mimetypes = config($mine_config, []);
             if (false === in_array($mimetype, $valid_mimetypes)) {
                 return $this->error('mime') . $mimetype;
@@ -127,18 +125,22 @@ class UploadController extends VaultboxController
             $new_filename = preg_replace('/[^A-Za-z0-9\-\']/', '_', $new_filename);
         }
 
-        return $new_filename . '.' . $file->getClientOriginalExtension();
+        if ($file->getClientOriginalExtension()) {
+            return  $new_filename . '.' . $file->getClientOriginalExtension();
+        }
+        return $new_filename;
     }
 
-    private function makeThumb($new_filename)
+    private function makeThumb($file, $new_filename)
     {
         // create thumb folder
         $this->createFolderByPath(parent::getThumbPath());
 
         // create thumb image
-        Image::make(parent::getCurrentPath($new_filename))
+        $image = Image::make($file->getRealPath())
             ->fit(config('vaultbox.thumb_img_width', 200), config('vaultbox.thumb_img_height', 200))
-            ->save(parent::getThumbPath($new_filename));
+            ->encode(pathinfo($new_filename)['extension']);
+        Storage::disk(config('vaultbox.storage.drive'))->put(parent::getThumbPath($new_filename), $image->getEncoded());
     }
 
     private function useFile($new_filename)

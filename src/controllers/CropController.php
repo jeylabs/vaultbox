@@ -3,6 +3,7 @@
 namespace Jeylabs\Vaultbox\controllers;
 
 
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Jeylabs\Vaultbox\Events\ImageIsCropping;
 use Jeylabs\Vaultbox\Events\ImageWasCropped;
@@ -41,15 +42,17 @@ class CropController extends VaultboxController
         $image_path = public_path() . $image;
 
         // crop image
-        Image::make($image_path)
+        $image = Image::make($image_path)
             ->crop($dataWidth, $dataHeight, $dataX, $dataY)
-            ->save($image_path);
+            ->orientate()->encode(pathinfo($image_path)['extension']);
+        Storage::disk(config('vaultbox.storage.drive'))->put($image_path, $image->getEncoded());
         event(new ImageIsCropping($image_path));
 
         // make new thumbnail
         Image::make($image_path)
             ->fit(config('vaultbox.thumb_img_width', 200), config('vaultbox.thumb_img_height', 200))
-            ->save(parent::getThumbPath(parent::getName($image_path)));
+            ->orientate()->encode(pathinfo(parent::getThumbPath(parent::getName($image_path)))['extension']);
+        Storage::disk(config('vaultbox.storage.drive'))->put(parent::getThumbPath(parent::getName($image_path)), $image->getEncoded());
         event(new ImageWasCropped($image_path));
     }
 }

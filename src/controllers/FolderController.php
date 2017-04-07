@@ -57,7 +57,7 @@ class FolderController extends VaultboxController
 
         if (empty($folder_name)) {
             return $this->error('folder-name');
-        } elseif (Storage::exists($path)) {
+        } elseif (Storage::disk(config('vaultbox.storage.drive'))->exists($path)) {
             return $this->error('folder-exist');
         } elseif (config('vaultbox.alphanumeric_directory') && preg_match('/[^\w-]/i', $folder_name)) {
             return $this->error('folder-alnum');

@@ -22,10 +22,9 @@ trait VaultboxHelpers
     public function getCurrentPath($file_name = null, $is_thumb = null)
     {
         $path = $this->composeSegments('dir', $is_thumb, $file_name);
-
         $path = $this->translateToOsPath($path);
 
-        return base_path($path);
+        return $path;
     }
 
     public function getThumbUrl($image_name = null)
@@ -117,7 +116,7 @@ trait VaultboxHelpers
 
     public function getRootFolderPath($type)
     {
-        return base_path($this->getPathPrefix('dir') . $this->rootFolder($type));
+        return $this->getPathPrefix('dir') . $this->rootFolder($type);
     }
 
     public function getName($file)
@@ -242,7 +241,7 @@ trait VaultboxHelpers
     public function getDirectories($path)
     {
         $thumb_folder_name = config('vaultbox.thumb_folder_name');
-        $all_directories = Storage::directories($path);
+        $all_directories = Storage::disk(config('vaultbox.storage.drive'))->directories($path);
 
         $arr_dir = [];
 
@@ -264,11 +263,11 @@ trait VaultboxHelpers
     {
         $arr_files = [];
 
-        foreach (File::files($path) as $key => $file) {
+        foreach (Storage::disk(config('vaultbox.storage.drive'))->files($path) as $key => $file) {
             $file_name = $this->getName($file);
 
             if ($this->fileIsImage($file)) {
-                $file_type = File::mimeType($file);
+                $file_type = Storage::mimeType($file);
                 $icon = 'fa-image';
             } else {
                 $extension = strtolower(File::extension($file_name));
@@ -278,15 +277,15 @@ trait VaultboxHelpers
 
             $thumb_url = null;
             $thumb_path = $this->getThumbPath($file_name);
-            if (File::exists($thumb_path)) {
-                $thumb_url = $this->getThumbUrl($file_name) . '?timestamp=' . filemtime($thumb_path);
+            if (Storage::disk(config('vaultbox.storage.drive'))->exists($thumb_path)) {
+                $thumb_url = $this->getThumbUrl($file_name) . '?timestamp=' . Storage::lastModified($thumb_path);
             }
 
             $arr_files[$key] = [
                 'name'      => $file_name,
                 'url'       => $this->getFileUrl($file_name),
-                'size'      => $this->humanFilesize(File::size($file)),
-                'updated'   => filemtime($file),
+                'size'      => $this->humanFilesize(Storage::size($file)),
+                'updated'   => Storage::lastModified($file),
                 'type'      => $file_type,
                 'icon'      => $icon,
                 'thumb'     => $thumb_url
@@ -298,14 +297,14 @@ trait VaultboxHelpers
 
     public function createFolderByPath($path)
     {
-        if (!File::exists($path)) {
-            Storage::makeDirectory($path, $mode = 0777, true, true);
+        if (!Storage::disk(config('vaultbox.storage.drive'))->exists($path)) {
+            Storage::disk(config('vaultbox.storage.drive'))->makeDirectory($path, $mode = 0777, true, true);
         }
     }
 
     public function directoryIsEmpty($directory_path)
     {
-        return count(File::allFiles($directory_path)) == 0;
+        return count(Storage::disk(config('vaultbox.storage.drive'))->allFiles($directory_path)) == 0;
     }
 
     public function fileIsImage($file)
@@ -313,7 +312,7 @@ trait VaultboxHelpers
         if ($file instanceof UploadedFile) {
             $mime_type = $file->getMimeType();
         } else {
-            $mime_type = File::mimeType($file);
+            $mime_type = Storage::disk(config('vaultbox.storage.drive'))->mimeType($file);
         }
 
         return starts_with($mime_type, 'image');

@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Config;
  * Class VaultboxServiceProvider
  * @package Jeylabs\Vaultbox
  */
-class VaultboxServiceProvider extends ServiceProvider {
+class VaultboxServiceProvider extends ServiceProvider
+{
 
     /**
      * Bootstrap the application services.
@@ -46,8 +47,7 @@ class VaultboxServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app->singleton('vaultbox', function ()
-        {
+        $this->app->singleton('vaultbox', function () {
             return true;
         });
     }

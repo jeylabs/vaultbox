@@ -34,7 +34,7 @@ class RenameController extends VaultboxController
         }
 
         if (!File::isDirectory($old_file)) {
-            $extension = Storage::extension($old_file);
+            $extension = File::extension($old_file);
             $new_name = str_replace('.' . $extension, '', $new_name) . '.' . $extension;
         }
 
@@ -48,21 +48,22 @@ class RenameController extends VaultboxController
 
         if (config('vaultbox.alphanumeric_directory') && preg_match('/[^\w-]/i', $new_name)) {
             return $this->error('folder-alnum');
-        } elseif (Storage::exists($new_file)) {
+        } elseif (Storage::disk(config('vaultbox.storage.drive'))->exists($new_file)) {
             return $this->error('rename');
         }
 
+
         if (File::isDirectory($old_file)) {
-            Storage::move($old_file, $new_file);
+            Storage::disk(config('vaultbox.storage.drive'))->move($old_file, $new_file);
             event(new FolderWasRenamed($old_file, $new_file));
             return $this->success_response;
         }
 
         if ($this->fileIsImage($old_file)) {
-            Storage::move(parent::getThumbPath($old_name), parent::getThumbPath($new_name));
+            Storage::disk(config('vaultbox.storage.drive'))->move(parent::getThumbPath($old_name), parent::getThumbPath($new_name));
         }
 
-        Storage::move($old_file, $new_file);
+        Storage::disk(config('vaultbox.storage.drive'))->move($old_file, $new_file);
 
         event(new ImageWasRenamed($old_file, $new_file));
 

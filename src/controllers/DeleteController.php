@@ -31,7 +31,7 @@ class DeleteController extends VaultboxController
             return $this->error('folder-name');
         }
 
-        if (!Storage::exists($file_to_delete)) {
+        if (!Storage::disk(config('vaultbox.storage.drive'))->exists($file_to_delete)) {
             return $this->error('folder-not-found', ['folder' => $file_to_delete]);
         }
 
@@ -40,16 +40,16 @@ class DeleteController extends VaultboxController
                 return $this->error('delete-folder');
             }
 
-            Storage::deleteDirectory($file_to_delete);
+            Storage::disk(config('vaultbox.storage.drive'))->deleteDirectory($file_to_delete);
 
             return $this->success_response;
         }
 
         if ($this->fileIsImage($file_to_delete)) {
-            Storage::delete($thumb_to_delete);
+            Storage::disk(config('vaultbox.storage.drive'))->delete($thumb_to_delete);
         }
 
-        Storage::delete($file_to_delete);
+        Storage::disk(config('vaultbox.storage.drive'))->delete($file_to_delete);
 
         event(new ImageWasDeleted($file_to_delete));
 
