@@ -267,7 +267,7 @@ trait VaultboxHelpers
             $file_name = $this->getName($file);
 
             if ($this->fileIsImage($file)) {
-                $file_type = Storage::mimeType($file);
+                $file_type = Storage::disk(config('vaultbox.storage.drive'))->mimeType($file);
                 $icon = 'fa-image';
             } else {
                 $extension = strtolower(File::extension($file_name));
@@ -278,14 +278,14 @@ trait VaultboxHelpers
             $thumb_url = null;
             $thumb_path = $this->getThumbPath($file_name);
             if (Storage::disk(config('vaultbox.storage.drive'))->exists($thumb_path)) {
-                $thumb_url = $this->getThumbUrl($file_name) . '?timestamp=' . Storage::lastModified($thumb_path);
+                $thumb_url = $this->getThumbUrl($file_name) . '?timestamp=' . Storage::disk(config('vaultbox.storage.drive'))->lastModified($thumb_path);
             }
 
             $arr_files[$key] = [
                 'name'      => $file_name,
                 'url'       => $this->getFileUrl($file_name),
-                'size'      => $this->humanFilesize(Storage::size($file)),
-                'updated'   => Storage::lastModified($file),
+                'size'      => $this->humanFilesize(Storage::disk(config('vaultbox.storage.drive'))->size($file)),
+                'updated'   => Storage::disk(config('vaultbox.storage.drive'))->lastModified($file),
                 'type'      => $file_type,
                 'icon'      => $icon,
                 'thumb'     => $thumb_url

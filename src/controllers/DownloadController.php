@@ -20,7 +20,7 @@ class DownloadController extends VaultboxController
     {
         $fileName = request('file');
         $fileContent = Storage::disk(config('vaultbox.storage.drive'))->get(parent::getCurrentPath($fileName));
-        $mimeType = Storage::mimeType(parent::getCurrentPath(request('file')));
+        $mimeType = Storage::disk(config('vaultbox.storage.drive'))->mimeType(parent::getCurrentPath(request('file')));
         $response = response($fileContent, 200, [
             'Content-Type' => $mimeType,
             'Content-Description' => 'File Transfer',
