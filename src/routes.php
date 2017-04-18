@@ -87,4 +87,11 @@ Route::group(compact('middleware', 'prefix', 'as', 'namespace'), function () {
     ]);
 
     Route::get('/demo', 'DemoController@index');
+
+    // delete
+    Route::get('{file}', [
+        'uses' => 'ItemsController@fileShow',
+        'as' => 'fileShow',
+        'where' => ['file' => '(.*)']
+    ]);
 });

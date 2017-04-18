@@ -34,7 +34,7 @@ trait VaultboxHelpers
 
     public function getFileUrl($image_name = null, $is_thumb = null)
     {
-        return url($this->composeSegments('url', $is_thumb, $image_name));
+        return url( config('vaultbox.prefix') . '/' . $this->composeSegments('url', $is_thumb, $image_name));
     }
 
     private function composeSegments($type, $is_thumb, $file_name)

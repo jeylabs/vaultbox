@@ -1,6 +1,8 @@
 <?php
 
 namespace Jeylabs\Vaultbox\controllers;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Exception\NotFoundException;
 
 
 /**
@@ -44,5 +46,16 @@ class ItemsController extends VaultboxController
         }
 
         return 'vaultbox::' . $view_type . '-view';
+    }
+
+    public function fileShow($file)
+    {
+        if(!Storage::disk(config('vaultbox.storage.drive'))->exists('/' . config('vaultbox.base_directory') . '/'. $file)) {
+            throw new NotFoundException();
+        }
+
+        $mine = Storage::disk(config('vaultbox.storage.drive'))->mimeType(config('vaultbox.base_directory') . '/'. $file);
+        $fileContent = Storage::disk(config('vaultbox.storage.drive'))->get(config('vaultbox.base_directory') . '/'. $file);
+        return response($fileContent)->header('Content-Type',  $mine);
     }
 }
