@@ -1,17 +1,18 @@
 <?php
 
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Exception\NotFoundException;
-use Jeylabs\Vaultbox\controllers\VaultboxController;
 
 if (! function_exists('vaultbox_file_path')) {
     /**
      * Get a path for the file.
      *
      * @param  string $path
+     * @param bool $fullPath
      * @param null $extraRemoves
      * @return string
      */
-    function vaultbox_file_path($path, $extraRemoves = null)
+    function vaultbox_file_path($path, $fullPath = false, $extraRemoves = null)
     {
         if (is_null($path)) {
             throw new NotFoundException();
@@ -32,9 +33,18 @@ if (! function_exists('vaultbox_file_path')) {
             $path = str_replace($extraRemoves, null, $path);
         }
 
-        $controller = new VaultboxController();
-        $root .= $controller->getCurrentPath($path);
+        $imagePath = config('vaultbox.base_directory') . '/' . config('vaultbox.images_folder_name') . $path;
+        if(Storage::disk(config('vaultbox.storage.drive'))->exists($imagePath)) {
+            $path = $fullPath ? $root . $imagePath : $imagePath;
+            return $path;
+        }
 
-        return $root;
+        $filePath = config('vaultbox.base_directory') . '/' . config('vaultbox.files_folder_name') . $path;
+        if(Storage::disk(config('vaultbox.storage.drive'))->exists($filePath)) {
+            $path = $fullPath ? $root . $imagePath : $imagePath;
+            return $path;
+        }
+
+        return false;
     }
 }

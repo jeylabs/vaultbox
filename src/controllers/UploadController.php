@@ -54,28 +54,43 @@ class UploadController extends VaultboxController
         $time = time();
         $new_filename  = $this->getNewName($file);
         $new_file_path = parent::getCurrentPath() . '/' . $time . '/' ;
-        $filePath = $new_file_path . $new_filename;
+        if(!Storage::disk(config('vaultbox.storage.drive'))->exists($new_file_path)) {
+            Storage::disk(config('vaultbox.storage.drive'))->makeDirectory($new_file_path);
+        }
 
-        chmod($file->path(), 0777);
+        $filePath = $new_file_path . $new_filename;
         event(new ImageIsUploading($filePath));
+
         try {
             if ($this->fileIsImage($file)) {
+                $tempPath = $new_file_path . config('vaultbox.thumb_folder_name') . '/';
+                $tempFilePath = $tempPath . $new_filename;
+
+                if(!Storage::disk(config('vaultbox.storage.drive'))->exists($tempPath)) {
+                    Storage::disk(config('vaultbox.storage.drive'))->makeDirectory($tempPath);
+                }
+
                 $image = Image::make($file->getRealPath())
                     ->orientate()->encode(pathinfo($filePath)['extension']);
                 Storage::disk(config('vaultbox.storage.drive'))->put($filePath, $image->getEncoded());
 
-                $tempFilePath = $new_file_path . config('vaultbox.thumb_folder_name') . '/' . $new_filename;
                 $image = Image::make($file->getRealPath())
                     ->fit(config('vaultbox.thumb_img_width', 200), config('vaultbox.thumb_img_height', 200))
                     ->encode(pathinfo($tempFilePath)['extension']);
                 Storage::disk(config('vaultbox.storage.drive'))->put($tempFilePath, $image->getEncoded());
+
+                chmod($filePath, 0777);
+                chmod($tempFilePath, 0777);
+
             } else {
                 Storage::disk(config('vaultbox.storage.drive'))
                     ->putFileAs(str_replace($new_filename, '', $new_file_path) ,$file, $new_filename);
+                chmod($filePath, 0777);
             }
         } catch (\Exception $e) {
             return $this->error('invalid');
         }
+
         event(new ImageWasUploaded(realpath($new_file_path)));
         return $new_filename;
     }
