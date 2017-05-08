@@ -38,6 +38,8 @@ class VaultboxServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/views'  => base_path('resources/views/vendor/vaultbox'),
         ], 'vaultbox_view');
+
+        $this->registerHelpers();
     }
 
     /**
@@ -50,6 +52,13 @@ class VaultboxServiceProvider extends ServiceProvider
         $this->app->singleton('vaultbox', function () {
             return true;
         });
+    }
+
+    private function registerHelpers()
+    {
+        if(file_exists($file = __DIR__ . '/helpers.php')) {
+            require $file;
+        }
     }
 
 }

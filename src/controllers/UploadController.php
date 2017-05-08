@@ -51,17 +51,24 @@ class UploadController extends VaultboxController
             return $validation_message;
         }
 
+        $time = time();
         $new_filename  = $this->getNewName($file);
-        $new_file_path = parent::getCurrentPath($new_filename);
+        $new_file_path = parent::getCurrentPath() . '/' . $time . '/' ;
+        $filePath = $new_file_path . $new_filename;
 
         chmod($file->path(), 0777);
-        event(new ImageIsUploading($new_file_path));
+        event(new ImageIsUploading($filePath));
         try {
             if ($this->fileIsImage($file)) {
                 $image = Image::make($file->getRealPath())
-                    ->orientate()->encode(pathinfo($new_file_path)['extension']);
-                Storage::disk(config('vaultbox.storage.drive'))->put($new_file_path, $image->getEncoded());
-                $this->makeThumb($file, $new_filename);
+                    ->orientate()->encode(pathinfo($filePath)['extension']);
+                Storage::disk(config('vaultbox.storage.drive'))->put($filePath, $image->getEncoded());
+
+                $tempFilePath = $new_file_path . config('vaultbox.thumb_folder_name') . '/' . $new_filename;
+                $image = Image::make($file->getRealPath())
+                    ->fit(config('vaultbox.thumb_img_width', 200), config('vaultbox.thumb_img_height', 200))
+                    ->encode(pathinfo($tempFilePath)['extension']);
+                Storage::disk(config('vaultbox.storage.drive'))->put($tempFilePath, $image->getEncoded());
             } else {
                 Storage::disk(config('vaultbox.storage.drive'))
                     ->putFileAs(str_replace($new_filename, '', $new_file_path) ,$file, $new_filename);

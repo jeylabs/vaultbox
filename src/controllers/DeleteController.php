@@ -35,14 +35,13 @@ class DeleteController extends VaultboxController
             return $this->error('folder-not-found', ['folder' => $file_to_delete]);
         }
 
-        if (File::isDirectory($file_to_delete)) {
-            if (!parent::directoryIsEmpty($file_to_delete)) {
-                return $this->error('delete-folder');
-            }
-
+        if(!parent::directoryIsEmpty($file_to_delete)) {
             Storage::disk(config('vaultbox.storage.drive'))->deleteDirectory($file_to_delete);
-
             return $this->success_response;
+        }
+
+        if(File::isDirectory($file_to_delete)) {
+            Storage::disk(config('vaultbox.storage.drive'))->deleteDirectory($file_to_delete);
         }
 
         if ($this->fileIsImage($file_to_delete)) {
