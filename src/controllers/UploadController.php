@@ -24,9 +24,11 @@ class UploadController extends VaultboxController
         $response = [];
         $files = request()->file('upload');
         $error_bag = [];
+
         foreach (is_array($files) ? $files : [$files] as $file) {
-            $validation_message = $this->uploadValidator($file);
-            $new_filename = $this->proceedSingleUpload($file);
+			$time = time();
+            $validation_message = $this->uploadValidator($file, $time);
+            $new_filename = $this->proceedSingleUpload($file, $time);
 
             if ($validation_message !== 'pass') {
                 array_push($error_bag, $validation_message);
@@ -44,15 +46,15 @@ class UploadController extends VaultboxController
         return $response;
     }
 
-    private function proceedSingleUpload($file)
+    private function proceedSingleUpload($file, $time)
     {
-        $validation_message = $this->uploadValidator($file);
+        $validation_message = $this->uploadValidator($file, $time);
         if ($validation_message !== 'pass') {
             return $validation_message;
         }
 
-        $time = time();
         $new_filename  = $this->getNewName($file);
+		$rootPath = config('vaultbox.storage.root');
         $new_file_path = parent::getCurrentPath() . '/' . $time . '/' ;
         if(!Storage::disk(config('vaultbox.storage.drive'))->exists($new_file_path)) {
             Storage::disk(config('vaultbox.storage.drive'))->makeDirectory($new_file_path);
@@ -79,23 +81,23 @@ class UploadController extends VaultboxController
                     ->encode(pathinfo($tempFilePath)['extension']);
                 Storage::disk(config('vaultbox.storage.drive'))->put($tempFilePath, $image->getEncoded());
 
-                chmod($filePath, 0777);
-                chmod($tempFilePath, 0777);
+                chmod($rootPath . '/' . $filePath, 0777);
+                chmod($rootPath . '/' . $tempFilePath, 0777);
 
             } else {
                 Storage::disk(config('vaultbox.storage.drive'))
                     ->putFileAs(str_replace($new_filename, '', $new_file_path) ,$file, $new_filename);
-                chmod($filePath, 0777);
+                chmod($rootPath . '/' . $filePath, 0777);
             }
         } catch (\Exception $e) {
             return $this->error('invalid');
         }
 
-        event(new ImageWasUploaded(realpath($new_file_path)));
-        return $new_filename;
+        event(new ImageWasUploaded(realpath($time . '/' . $new_filename)));
+        return $time . '/' . $new_filename;
     }
 
-    private function uploadValidator($file)
+    private function uploadValidator($file, $time)
     {
         if (empty($file)) {
             return $this->error('file-empty');
@@ -108,8 +110,8 @@ class UploadController extends VaultboxController
             return 'File failed to upload. Error code: ' . $file->getError();
         }
 
-        $new_filename = $this->getNewName($file);
-        if (Storage::disk(config('vaultbox.storage.drive'))->exists(parent::getCurrentPath($new_filename))) {
+        $new_filename = $time . '/' . $this->getNewName($file);
+        if (Storage::disk(config('vaultbox.storage.drive'))->exists(parent::getCurrentPath( $new_filename))) {
             return $this->error('file-exist');
         }
 
